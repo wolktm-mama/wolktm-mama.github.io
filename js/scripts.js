@@ -55,45 +55,9 @@ $('#submit-contact-form').click( function() {
         $('#message').parent().removeClass('has-error');
     }
 
-    var data_string = $('#contact-form').serialize();
+    var mailto = 'mailto:' + email + '?subject=Wiadomość od '+ name + '&body' + message;
+    window.location.href=mailto;
 
-    if (error == false) {
-        $.ajax({
-            type: "POST",
-            url: "send_message.php",
-            data: data_string,
-            timeout: 6000,
-            error: function(request,error) {
-                if (error == "timeout") {
-                    $('#contact-error').slideDown('slow');
-                    $('#contact-error span').text('Timed out when contacting server.');
-                    setTimeout(function() {
-                        $('#contact-error').slideUp('slow');
-                    }, 10000);
-                }
-                else {
-                    $('#contact-error').slideDown('slow');
-                    $('#contact-error span').text('Something is not working. Please try again.');
-                    setTimeout(function() {
-                        $('#contact-error').slideUp('slow');
-                    }, 10000);
-                }
-            },
-            success: function() {
-                $('#contact-success').slideDown('slow');
-                $('#contact-success span').text('Message sent.');
-                setTimeout(function() {
-                    $('#contact-success').slideUp('slow');
-                }, 10000);
-                $('#name').val('');
-                $('#email').val('');
-                $('#message').val('');
-            }
-        });
-    } else {
-        $('#contact-error').hide();
-        $('#contact-success').hide();
-    }
 });
 
 /*
